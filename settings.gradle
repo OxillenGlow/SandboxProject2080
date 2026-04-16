@@ -1,0 +1,2 @@
+rootProject.name = 'GradleGame'
+include 'assets'
