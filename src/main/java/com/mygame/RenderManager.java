@@ -14,7 +14,7 @@ public final class RenderManager {
     private final ConcurrentHashMap<ChunkPos, ChunkRenderData> renderMap = new ConcurrentHashMap<>();
     private final Queue<ChunkPos> dirtyQueue = new ConcurrentLinkedQueue<>();
     private final Set<ChunkPos> pendingChunks = Collections.newSetFromMap(new ConcurrentHashMap<>());
-
+//test github
     private int viewDistance = 1;
     private static final double CHUNK_METERS = BufferedChunk.SIZE * 0.5;
     private int viewHeight = -1;
