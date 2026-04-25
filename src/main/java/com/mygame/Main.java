@@ -14,6 +14,7 @@ import com.jme3.renderer.RenderManager;
  */
 public class Main extends SimpleApplication {
     private com.mygame.RenderManager renderManagermg;
+    private BlockSelector blockSelector;
     WorldAccess worldAccess;
     public static void main(String[] args) {
         Main app = new Main();
@@ -34,7 +35,7 @@ public class Main extends SimpleApplication {
         // Pass the worldAccess, the node to attach chunks to (rootNode), and the assetManager
         
         this.renderManagermg = new com.mygame.RenderManager(worldAccess, rootNode, assetManager, player, this);
-        
+        this.blockSelector = new BlockSelector(cam, inputManager, rootNode);
 
         // Optional: Configure view distance (default was 8)
         // renderManager.setViewDistance(5);
@@ -61,6 +62,8 @@ public class Main extends SimpleApplication {
             cam.getLocation().y, 
             cam.getLocation().z
         );
+        
+        Object[] blockCoords = blockSelector.getBlockCoords();
         
     }
 
