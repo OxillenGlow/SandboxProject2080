@@ -119,6 +119,14 @@ public final class RenderManager {
         });
     }
 
+    // New method to handle block changes and trigger rebuilds
+    public void onBlockChanged(int worldX, int worldY, int worldZ) {
+        ChunkPos chunkPos = worldToChunk(worldX, worldY, worldZ);
+        markDirty(chunkPos);
+        // Mark neighbors if on boundary (simplified: always mark neighbors for now)
+        markNeighborsDirty(chunkPos);
+    }
+
     public static final class ChunkRenderData {
         public Object geometry;
         public long lastBuiltTime;

@@ -17,12 +17,9 @@ import com.jme3.scene.Node;
             this.mouseListener = mouseListener;
         }
 
-        public Object[] getBlockCoords() {
+    public BlockSelection getSelection() {
         boolean leftPressed = mouseListener.leftPressed;
         boolean rightPressed = mouseListener.rightPressed;
-
-        System.out.println("Left pressed: " + leftPressed); // Debugging output
-        System.out.println("Right pressed: " + rightPressed); // Debugging output
 
         if (!leftPressed && !rightPressed) {
             return null;
@@ -34,32 +31,29 @@ import com.jme3.scene.Node;
         rootNode.collideWith(ray, results);
 
         if (results.size() == 0) {
-            System.out.println("No collision detected!"); // Debugging output
-                return null;
+            return null;
         }
 
         CollisionResult closest = results.getClosestCollision();
         Vector3f hitPoint = closest.getContactPoint();
-        System.out.println("Hit point: " + hitPoint); // Debugging output
 
         // Direction from cam to hit
         Vector3f direction = hitPoint.subtract(cam.getLocation()).normalize();
 
         Vector3f adjustedPoint;
-        boolean isLeft;
+        boolean placeAction;
         if (leftPressed) {
             adjustedPoint = hitPoint.add(direction.mult(0.3f));
-            isLeft = true;
+            placeAction = true; // Left click = place
         } else {
             adjustedPoint = hitPoint.subtract(direction.mult(0.3f));
-            isLeft = false;
+            placeAction = false; // Right click = remove
         }
-    
+
         int x = (int) Math.floor(adjustedPoint.x);
         int y = (int) Math.floor(adjustedPoint.y);
         int z = (int) Math.floor(adjustedPoint.z);
 
-        System.out.println("Block coordinates: " + x + ", " + y + ", " + z); // Debugging output
-        return new Object[]{x, y, z, isLeft};
+        return new BlockSelection(x, y, z, placeAction);
     }
 }

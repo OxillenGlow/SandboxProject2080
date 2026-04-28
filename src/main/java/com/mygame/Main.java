@@ -57,18 +57,22 @@ public class Main extends SimpleApplication {
             cam.getLocation().z
         );
 
-        // Check for block coordinates from BlockSelector
-        Object[] blockCoords = blockSelector.getBlockCoords();
-        if (blockCoords != null) {
-            // Handle block coordinates here (e.g., block placement or destruction)
-            System.out.println(blockCoords[0].toString());
-            System.out.println(blockCoords[1].toString());
-            System.out.println(blockCoords[2].toString());
-            System.out.println("60fps");
+        // Check for block selection from BlockSelector
+        BlockSelection selection = blockSelector.getSelection();
+        if (selection != null) {
+            if (selection.placeAction) {
+                // Left click: place block (ID 2)
+                worldAccess.setBlockAt(selection.x, selection.y, selection.z, 2);
+                System.out.println("Placed block at " + selection);
+            } else {
+                // Right click: remove block (set to 0)
+                worldAccess.removeBlockAt(selection.x, selection.y, selection.z);
+                System.out.println("Removed block at " + selection);
+            }
+            // Notify RenderManager to rebuild affected chunks
+            renderManagermg.onBlockChanged(selection.x, selection.y, selection.z);
         }
-        else {System.out.println("Error getting imput");}
     }
-
     @Override
     public void simpleRender(RenderManager rm) {
         // Optional: Render logic
