@@ -46,7 +46,7 @@ public class Main extends SimpleApplication {
     private Inventory inventory;
     private EngineAccess engineAccess;
     private int modLastTick; // time since mods last tick in milliseconds 
-    public String worldname; // world name
+    public static String worldname; // world name
     private Thread vThread;
 
     // Single JsChunkGenerator instance for the whole app. It owns one GraalVM
@@ -107,8 +107,8 @@ public class Main extends SimpleApplication {
         float aspectRatio = (float) cam.getWidth() / (float) cam.getHeight();
         cam.setFrustumPerspective(70f, aspectRatio, 0.5f, 5000.0f);
         cam.setFrustumFar(180f);
-
         
+
         TestInit.init(rootNode, flyCam, assetManager, inputManager);
         
         flyCam.setEnabled(false);
@@ -312,6 +312,7 @@ public class Main extends SimpleApplication {
 
     private void extractFiles(String world) {
       
+
         try {
             AssetConverter.extract("/chunkgen.js", "worlds/"+world+"/chunkgen.js");
             AssetConverter.extract("/mods/blocktrailmod.js", "worlds/"+world+"/mod/BlockTrail/blocktrailmod.js");
@@ -324,7 +325,7 @@ public class Main extends SimpleApplication {
             AssetConverter.extract("/mods/simpleNPC.js", "worlds/"+world+"/mod/SimpleNPC/simpleNPC.js");
             AssetConverter.extract("/mods/TimerDemo.js", "worlds/"+world+"/mod/TimerTest/TimerDemo.js");
             AssetConverter.extract("/mods/Delayed.js", "worlds/"+world+"/mod/TimerTest2/Delay.js");
-           
+            
             System.out.println("Extracted default mod files");
         } catch (IOException ex) {
             System.out.println("failed"+ex);
