@@ -61,6 +61,13 @@ public class Main extends SimpleApplication {
 
     public static void main(String[] args) throws IOException {
         System.out.println(java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments());
+        try {
+            worldname = args[0];
+        } catch (Exception e) {
+            worldname = "my_world";
+        }
+        if (worldname == null || worldname.isEmpty()) worldname = "my_world";
+        
         AppSettings settings = new AppSettings(true);
         settings.setFullscreen(false);
         settings.setResolution(1280, 720);
@@ -86,7 +93,6 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
 
-        worldname = "my_world";
         // This takes some files out of resources and extracts them to world folder.
         extractFiles(worldname);
         
