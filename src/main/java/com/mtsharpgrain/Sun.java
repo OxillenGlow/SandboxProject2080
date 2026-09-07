@@ -152,15 +152,15 @@ public class Sun {
     }
 
     public void loadTime() {
-        try (var in = new java.io.BufferedReader(new java.io.FileReader("worlds/my_world/sun_time.txt"))) {
+        try (var in = new java.io.BufferedReader(new java.io.FileReader("worlds/" + Main.worldname + "/sun_time.txt"))) {
             angleDeg = Float.parseFloat(in.readLine());
         } catch (Exception e) {
-            // file doesn’t exist yet → ignore
+            // file doesn't exist yet → ignore
         }
     }
 
     public void saveTime() {
-        try (var out = new java.io.PrintWriter("worlds/my_world/sun_time.txt")) {
+        try (var out = new java.io.PrintWriter("worlds/" + Main.worldname + "/sun_time.txt")) {
             out.println(angleDeg);
         } catch (Exception e) {
             System.err.println("Sun: could not save time: " + e.getMessage());
