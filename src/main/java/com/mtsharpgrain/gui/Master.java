@@ -256,7 +256,7 @@ public class Master {
 
             gui.textColor(ColorRGBA.White);
             
-            gui.text("- world/my_world/mod/  " + packName, 0.08f, y, (event, arg) -> {
+            gui.text("- world/" + Main.worldname + "/mod/  " + packName, 0.08f, y, (event, arg) -> {
                 if (event == IGuiMouseEvent.MOUSE_PRESSED_LEFT) {
                     GameState.navigateTo("home/modview/" + packName);
                 }
@@ -396,7 +396,7 @@ public class Master {
             gui.text("[breaking/placing]"+ com.mtsharpgrain.WorldAccess.percent +"%", 0.5f, 0.4f, null);
         }
     }
-   
+    
     private static void drawConsole(IGui gui) {
         if (inputPlugin == null) {
             System.err.println("drawConsole: inputPlugin is null – call newPlugin() first!");
