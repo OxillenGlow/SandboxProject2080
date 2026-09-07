@@ -99,7 +99,7 @@ public class Master {
 
             gui.text("-", 0.5f, 1.9f, null);
             gui.text("-", 0.5f, 0.5f, null);
-            drawModTable(gui, modPackManager);
+            drawModTable(com.mtsharpgrain.Main.worldname, gui, modPackManager);
             
         } else if (path.startsWith("home/modview/")) {
             gui.textFont("Interface/Fonts/Console.fnt");
@@ -229,7 +229,9 @@ public class Master {
     }
 
     // ── home/modview: table of mods with enable/disable ────────────────
-    private static void drawModTable(IGui gui, ModPackManager modPackManager) {
+    private static void drawModTable(String worldName, IGui gui, ModPackManager modPackManager) {
+        String effectiveWorldName = (worldName == null || worldName.isEmpty()) ? "my_world" : worldName;
+        
         gui.textHAlign("left");
         gui.textVAlign("top");
 
@@ -256,7 +258,7 @@ public class Master {
 
             gui.textColor(ColorRGBA.White);
             
-            gui.text("- world/my_world/mod/  " + packName, 0.08f, y, (event, arg) -> {
+            gui.text("- world/" + effectiveWorldName + "/mod/  " + packName, 0.08f, y, (event, arg) -> {
                 if (event == IGuiMouseEvent.MOUSE_PRESSED_LEFT) {
                     GameState.navigateTo("home/modview/" + packName);
                 }
@@ -396,7 +398,7 @@ public class Master {
             gui.text("[breaking/placing]"+ com.mtsharpgrain.WorldAccess.percent +"%", 0.5f, 0.4f, null);
         }
     }
-   
+    
     private static void drawConsole(IGui gui) {
         if (inputPlugin == null) {
             System.err.println("drawConsole: inputPlugin is null – call newPlugin() first!");
