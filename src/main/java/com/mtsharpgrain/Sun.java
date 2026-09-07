@@ -74,7 +74,7 @@ public class Sun {
         float degPerSecond = 360f / rotationPeriodSeconds;
         angleDeg = (angleDeg + degPerSecond * tpf) % 360f;
         float rad = angleDeg * FastMath.DEG_TO_RAD;
-        var orbitRadius = Main.VIEW_DISTANCE*16;
+        var orbitRadius = com.mtsharpgrain.Main.VIEW_DISTANCE*16;
         float x = playerTrueWorldPos.x + FastMath.cos(rad) * orbitRadius;
         float y = playerTrueWorldPos.y + FastMath.sin(rad) * orbitRadius;
         float z = playerTrueWorldPos.z;
@@ -152,15 +152,19 @@ public class Sun {
     }
 
     public void loadTime() {
-        try (var in = new java.io.BufferedReader(new java.io.FileReader("worlds/my_world/sun_time.txt"))) {
+        String worldName = com.mtsharpgrain.Main.worldname;
+        String effectiveWorldName = (worldName == null || worldName.isEmpty()) ? "my_world" : worldName;
+        try (var in = new java.io.BufferedReader(new java.io.FileReader("worlds/" + effectiveWorldName + "/sun_time.txt"))) {
             angleDeg = Float.parseFloat(in.readLine());
         } catch (Exception e) {
-            // file doesn’t exist yet → ignore
+            // file doesn't exist yet → ignore
         }
     }
 
     public void saveTime() {
-        try (var out = new java.io.PrintWriter("worlds/my_world/sun_time.txt")) {
+        String worldName = com.mtsharpgrain.Main.worldname;
+        String effectiveWorldName = (worldName == null || worldName.isEmpty()) ? "my_world" : worldName;
+        try (var out = new java.io.PrintWriter("worlds/" + effectiveWorldName + "/sun_time.txt")) {
             out.println(angleDeg);
         } catch (Exception e) {
             System.err.println("Sun: could not save time: " + e.getMessage());
