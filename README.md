@@ -127,6 +127,10 @@ map
       GUI Upgrade - Ongoing
       
     Core Systems
+      World selection UI - 0%
+        Split Main.java before and after world creation
+        Implement super simple gui for selection - 0%
+        Current world selection is done with arguments on starting the app but really, no one will use that.
       Physics System - 0%
         Implement as Java module
         Fix collision system
@@ -146,25 +150,17 @@ map
     Bug Fixes & Refactoring
       Performance Optimization
         Reduce blocks drawn
-        call processPendingBlockChanges() on separate thread and then use appenque.
-        Remove all the useless rendermanager callings, only world access functions are needed now to edit block.    
-      Remove the "Update" flag stuff in JS for new, working, java timed update
-        Add API docs on that
+      Remove the "Update" flag stuff in JS for new, working, java timed update.
 ```
 
 <sup>80% here means it is basically done but could be improved</sup>
 
 Done:
 
- - Java Timed Update API, Alternative to blocking setInterval
+ - Java Timed Update API, Alternative to blocking setInterval 80%
  - Mod blocks with a Matrix API 70%
- - Minimize mod refresh rate to speed up main thread 90%
- - remove mod thread from main thread. 90% ?(This is a **big** refactoring and because I am bad at this stuff, I gave the work to replit agent, hopefully, it did its job well but idk commit: [328a...](https://github.com/OxillenGlow/MtSharpGrain/commit/328a0d94e4593c1bdab88822d84c2999c514918f) and [575e...](https://github.com/OxillenGlow/MtSharpGrain/commit/575e299de24305037bb86f87c4f3d860c8318754))
- - Add some random flux to terrain
- - Survival as a JavaScript mod 80%
- - Added skybox 70% - i need to refine skybox
- - Full screen ect 100%
- - Default JavaSctipt mods to be placed in assets and unpacked at runtime 90%
+ - remove mod thread from main thread. 90% ?(This is a **big** refactoring and because I am bad at this stuff, I gave the work to replit agent, hopefully, it did its job well but idk commit: [328a...](https://github.com/OxillenGlow/MtSharpGrain/commit/328a0d94e4593c1bdab88822d84c2999c514918f) and [575e...](https://github.com/OxillenGlow/MtSharpGrain/commit/575e299de24305037bb86f87c4f3d860c8318754)) 90%
+ - Added space skybox 90% - i need to refine skybox
  - Used the java zip tool to allow for compressing chunks to much smaller sizes 80%
  - Extend JS API further
      - Simple save data api with XML 90%
