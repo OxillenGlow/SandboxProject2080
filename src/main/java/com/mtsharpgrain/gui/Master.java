@@ -27,8 +27,9 @@ public class Master {
     // currently selected block type
     public static int blockType = 0;
 
-    // lower bound of the currently displayed page (10 numbers shown: pageStart..pageStart+9)
-    public static int pageStart = 1;
+     public static int pageStart = 1;
+
+    public static boolean in;
     
     public static IGuiInputFields inputPlugin;
     
@@ -40,20 +41,19 @@ public class Master {
         
         
         console.setCommandHandler((String cmd) -> {
-            // Example: handle built‑in commands, or forward to a game shell
             switch (cmd) {
                 case "/clear":
                     console.getLines().clear();
                     break;
+
+                case "help":
                 case "/help":
                     console.println("Commands: /clear, /help, !break x y z, !place x y z id, (any other will be ignored)");
                     break;
                 default:
-                    // You could also write the command to System.in if you have a separate thread reading it
-                    // For now, just echo "unknown"
-                    console.println("Unknown command: " + cmd);
                     break;
             }
+            System.out.println(cmd);
         });
         
         // Force output to be captured
@@ -402,30 +402,21 @@ public class Master {
             System.err.println("drawConsole: inputPlugin is null – call newPlugin() first!");
             return;
         }
-
-        // --- 1. Background panel (optional) ---
-        gui.zIndex(10000f);
-        gui.textHAlign("right");
-        gui.textVAlign("top");
-        gui.textSize(0.018f);
-        gui.textColor(new ColorRGBA(0.1f, 0.1f, 0.1f, 0.7f));
-        gui.text("                                                            ", 0.70f, 0.02f, null);
-
         // --- 2. History lines ---
         gui.textHAlign("right");
-        gui.textVAlign("top");
-        gui.textSize(0.01f);
+        gui.textVAlign("bottom");
+        gui.textSize(0.015f);
         gui.textColor(ColorRGBA.Green);
 
         Object[] lines = console.getLines().toArray();
-        float y = 0.4f;
-        for (int i = lines.length - 1; i >= 0 && y > 0.10f; i--) {
-            gui.text(lines[i].toString(), 1f, y, false);
-            y -= 0.1f;
+        float y = 0f;
+        for (int i = lines.length - 1; i >= 0 && y < 0.5f; i--) {
+            gui.text(lines[i].toString().substring(0, 50), 0.5f, y, false);
+            y += 0.1f;
         }
 
         // --- 3. Input field using the plugin ---
-        gui.textHAlign("right");
+        gui.textHAlign("left");
         gui.textVAlign("bottom");
         gui.textSize(0.025f);
         gui.textColor(ColorRGBA.Cyan);
@@ -448,20 +439,26 @@ public class Master {
             }
         };
 
-        // The plugin's input() method is called each frame.
-        // persistent=false ensures old instances are cleaned up automatically.
-        inputPlugin.input("Hover your mouse above and enter["+console.getCurrentInput()+"]",   // displayed text
-            0.95f, 0.5f,                // position (right, bottom)
+        var flash = (Master.in && (System.currentTimeMillis() / 500) % 2 == 1) ? ">" : "";
+
+        inputPlugin.input("_____________________________________",
+            0.5f, 0.05f,
             (mouse, bool) -> {
                     if (mouse == IGuiMouseEvent.MOUSE_IN){
+                        in = true;
                         return true;
                     }
+                    in = false;
                     return false;
-                },        // mouse event – we just need mouseOver
-            keyHandler,                  // key handler
-            false                // persistent = false
+                },
+                keyHandler,
+            false
         );
 
+        gui.text("YOU:"+console.getCurrentInput() + flash, 0.5,0.05, false);
+        gui.imageSize(0.5f, 0.5f).imageAlpha(true).imageColor(ColorRGBA.Gray).imageHAlign("left").imageVAlign("top");
+
+        gui.image("/cc0/glass.png",0.5f,0.5f);
         gui.zIndex(0f);
     }
 }
